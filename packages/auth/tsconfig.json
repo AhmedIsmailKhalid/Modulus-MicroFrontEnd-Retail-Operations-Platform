@@ -1,0 +1,11 @@
+{
+  "extends": "@modulus/config/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@modulus/auth": ["./src/index.ts"],
+      "@modulus/types": ["../types/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

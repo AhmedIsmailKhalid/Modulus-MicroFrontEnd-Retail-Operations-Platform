@@ -1,0 +1,12 @@
+{
+  "extends": "@modulus/config/tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@modulus/auth": ["../../packages/auth/src/index.ts"],
+      "@modulus/types": ["../../packages/types/src/index.ts"],
+      "@modulus/ui": ["../../packages/ui/src/index.ts"]
+    }
+  },
+  "include": ["src", "webpack.config.ts"]
+}

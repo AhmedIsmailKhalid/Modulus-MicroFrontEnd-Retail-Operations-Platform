@@ -1,0 +1,11 @@
+{
+  "name": "@modulus/config",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared configuration files for Modulus monorepo",
+  "files": [
+    "tsconfig.base.json",
+    ".eslintrc.base.js",
+    "tailwind.config.base.js"
+  ]
+}
