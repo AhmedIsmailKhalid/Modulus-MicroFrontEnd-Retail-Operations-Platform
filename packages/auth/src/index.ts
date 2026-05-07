@@ -1,1 +1,2 @@
-// @modulus/auth — populated in Phase 1
+export { AuthProvider, useAuth, useAuthToken } from "./context";
+export { ProtectedRoute } from "./ProtectedRoute";
