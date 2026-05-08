@@ -21,5 +21,12 @@
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "apps\\shell\\public",
+      "apps\\inventory\\public",
+      "apps\\orders\\public"
+    ]
   }
 }

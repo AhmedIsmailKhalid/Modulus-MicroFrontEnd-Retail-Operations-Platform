@@ -9,9 +9,9 @@ type Configuration = WebpackConfig & { devServer?: DevServerConfig };
 
 const isDev = process.env["NODE_ENV"] !== "production";
 
-const inventoryUrl  = process.env["VITE_INVENTORY_URL"]  ?? "http://localhost:3001";
-const ordersUrl     = process.env["VITE_ORDERS_URL"]     ?? "http://localhost:3002";
-const analyticsUrl  = process.env["VITE_ANALYTICS_URL"]  ?? "http://localhost:3003";
+const inventoryUrl = process.env["VITE_INVENTORY_URL"] ?? "http://localhost:3001";
+const ordersUrl    = process.env["VITE_ORDERS_URL"]    ?? "http://localhost:3002";
+const analyticsUrl = process.env["VITE_ANALYTICS_URL"] ?? "http://localhost:3003";
 
 const config: Configuration = {
   entry: "./src/index.ts",
@@ -33,7 +33,15 @@ const config: Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              compilerOptions: { noEmit: false, allowImportingTsExtensions: false },
+              transpileOnly: false,
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
       {
@@ -55,14 +63,14 @@ const config: Configuration = {
         analytics: `analytics@${analyticsUrl}/remoteEntry.js`,
       },
       shared: {
-        react:        { singleton: true, requiredVersion: "^18.3.1", eager: true },
-        "react-dom":  { singleton: true, requiredVersion: "^18.3.1", eager: true },
-        "react-router-dom": { singleton: true, requiredVersion: "^7.0.2", eager: true },
+        react:              { singleton: true, requiredVersion: "^18.3.1", eager: true },
+        "react-dom":        { singleton: true, requiredVersion: "^18.3.1", eager: true },
+        "react-router-dom": { singleton: true, requiredVersion: "^7.0.2",  eager: true },
       },
+      dts: false,
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      favicon:  "./public/favicon.ico",
     }),
     ...(isDev ? [] : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
   ],

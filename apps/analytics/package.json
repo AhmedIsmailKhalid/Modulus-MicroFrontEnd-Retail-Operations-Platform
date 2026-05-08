@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack serve --config webpack.config.ts --mode development --port 3003",
     "build": "webpack --config webpack.config.ts --mode production",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npx tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",
     "clean": "rm -rf dist"
@@ -40,6 +40,6 @@
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.2.0",
-    "@module-federation/enhanced": "^0.8.0"
+    "@module-federation/enhanced": "^2.4.0"
   }
 }

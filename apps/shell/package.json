@@ -4,8 +4,8 @@
   "private": true,
   "description": "Modulus shell host application",
   "scripts": {
-    "dev": "webpack serve --config webpack.config.ts --mode development",
-    "build": "webpack --config webpack.config.ts --mode production",
+    "dev": "cross-env TS_NODE_PROJECT=tsconfig.webpack.json webpack serve --config webpack.config.ts --mode development",
+    "build": "cross-env TS_NODE_PROJECT=tsconfig.webpack.json webpack --config webpack.config.ts --mode production",
     "typecheck": "npx tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",
@@ -22,7 +22,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@module-federation/enhanced": "^0.8.0",
+    "@module-federation/enhanced": "^2.4.0",
     "@modulus/config": "*",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -42,6 +42,7 @@
     "vitest": "^2.1.8",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.2.0"
+    "webpack-dev-server": "^5.2.0",
+    "cross-env": "^7.0.3"
   }
 }

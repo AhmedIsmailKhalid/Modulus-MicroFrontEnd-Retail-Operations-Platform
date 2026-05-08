@@ -29,7 +29,15 @@ const config: Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              compilerOptions: { noEmit: false, allowImportingTsExtensions: false },
+              transpileOnly: false,
+            },
+          },
+        ],
         exclude: /node_modules/,
       },
       {
@@ -50,9 +58,10 @@ const config: Configuration = {
         "./App": "./src/App",
       },
       shared: {
-        react:       { singleton: true, requiredVersion: "^18.3.1" },
-        "react-dom": { singleton: true, requiredVersion: "^18.3.1" },
+        react:       { singleton: true, requiredVersion: "^18.3.1", eager: true },
+        "react-dom": { singleton: true, requiredVersion: "^18.3.1", eager: true },
       },
+      dts: false,
     }),
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
     ...(isDev ? [] : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
