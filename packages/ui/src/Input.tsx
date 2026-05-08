@@ -5,9 +5,9 @@ import { cn } from "./utils";
 // ─── Input ────────────────────────────────────────────────────────────────────
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  error?: string;
-  hint?: string;
+  label?: string | undefined;
+  error?: string | undefined;
+  hint?: string | undefined;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -47,11 +47,11 @@ Input.displayName = "Input";
 // ─── Select ───────────────────────────────────────────────────────────────────
 
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
-  label?: string;
-  error?: string;
-  hint?: string;
+  label?: string | undefined;
+  error?: string | undefined;
+  hint?: string | undefined;
   options: Array<{ value: string; label: string }>;
-  placeholder?: string;
+  placeholder?: string | undefined;
 };
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
@@ -97,9 +97,9 @@ Select.displayName = "Select";
 // ─── Textarea ─────────────────────────────────────────────────────────────────
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
-  label?: string;
-  error?: string;
-  hint?: string;
+  label?: string | undefined;
+  error?: string | undefined;
+  hint?: string | undefined;
 };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
