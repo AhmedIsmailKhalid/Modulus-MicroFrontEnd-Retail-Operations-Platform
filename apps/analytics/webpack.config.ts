@@ -1,13 +1,9 @@
 import path from "path";
-import { fileURLToPath } from "url";
 import { Configuration as WebpackConfig } from "webpack";
 import { Configuration as DevServerConfig } from "webpack-dev-server";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 type Configuration = WebpackConfig & { devServer?: DevServerConfig };
 
@@ -24,23 +20,25 @@ const config: Configuration = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
     alias: {
-      "@modulus/auth": path.resolve(__dirname, "../../packages/auth/src/index.ts"),
+      "@modulus/auth":  path.resolve(__dirname, "../../packages/auth/src/index.ts"),
       "@modulus/types": path.resolve(__dirname, "../../packages/types/src/index.ts"),
-      "@modulus/ui": path.resolve(__dirname, "../../packages/ui/src/index.ts"),
+      "@modulus/ui":    path.resolve(__dirname, "../../packages/ui/src/index.ts"),
     },
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-          options: {
-            configFile: "tsconfig.webpack.json",
-            transpileOnly: true,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              compilerOptions: { noEmit: false, allowImportingTsExtensions: false },
+              transpileOnly: false,
+            },
           },
-        },
+        ],
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
@@ -54,34 +52,22 @@ const config: Configuration = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "inventory",
+      name: "analytics",
       filename: "remoteEntry.js",
-      dts: false,
       exposes: {
         "./App": "./src/App",
       },
       shared: {
-        react: {
-          singleton: true,
-          requiredVersion: "^18.3.1",
-          eager: true,
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: "^18.3.1",
-          eager: true,
-        },
+        react:       { singleton: true, requiredVersion: "^18.3.1", eager: true },
+        "react-dom": { singleton: true, requiredVersion: "^18.3.1", eager: true },
       },
+      dts: false,
     }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
-    ...(isDev
-      ? []
-      : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
+    new HtmlWebpackPlugin({ template: "./public/index.html" }),
+    ...(isDev ? [] : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
   ],
   devServer: {
-    port: 3001,
+    port: 3003,
     historyApiFallback: true,
     hot: true,
     headers: { "Access-Control-Allow-Origin": "*" },
