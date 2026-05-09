@@ -38,11 +38,11 @@ export function ProductForm({
     resolver: zodResolver(CreateProductSchema),
     defaultValues: product
       ? {
-          name: product.name,
-          sku: product.sku,
+          name:     product.name,
+          sku:      product.sku,
           category: product.category,
-          price: product.price / 100,
-          stock: product.stock,
+          price:    product.price / 100,
+          stock:    product.stock,
           imageUrl: product.imageUrl ?? "",
         }
       : { stock: 0, price: 0 },
@@ -51,11 +51,11 @@ export function ProductForm({
   useEffect(() => {
     if (product) {
       reset({
-        name: product.name,
-        sku: product.sku,
+        name:     product.name,
+        sku:      product.sku,
         category: product.category,
-        price: product.price / 100,
-        stock: product.stock,
+        price:    product.price / 100,
+        stock:    product.stock,
         imageUrl: product.imageUrl ?? "",
       });
     }
@@ -86,7 +86,6 @@ export function ProductForm({
       const saved = await res.json() as Product;
       onSuccess(saved);
     } catch (err) {
-      // Error handled by caller via toast
       throw err;
     } finally {
       setIsSubmitting(false);
@@ -104,6 +103,7 @@ export function ProductForm({
         placeholder="Wireless Headphones"
         required
         error={errors.name?.message}
+        data-testid="product-form-name"
         {...register("name")}
       />
 
@@ -114,6 +114,7 @@ export function ProductForm({
         disabled={!!product}
         error={errors.sku?.message}
         hint={product ? "SKU cannot be changed after creation" : undefined}
+        data-testid="product-form-sku"
         {...register("sku")}
       />
 
@@ -123,6 +124,7 @@ export function ProductForm({
         options={categoryOptions}
         placeholder="Select a category"
         error={errors.category?.message}
+        data-testid="product-form-category"
         {...register("category")}
       />
 
@@ -135,6 +137,7 @@ export function ProductForm({
           placeholder="29.99"
           required
           error={errors.price?.message}
+          data-testid="product-form-price"
           {...register("price", { valueAsNumber: true })}
         />
         <Input
@@ -144,6 +147,7 @@ export function ProductForm({
           placeholder="100"
           required
           error={errors.stock?.message}
+          data-testid="product-form-stock"
           {...register("stock", { valueAsNumber: true })}
         />
       </div>
@@ -153,6 +157,7 @@ export function ProductForm({
         type="url"
         placeholder="https://..."
         error={errors.imageUrl?.message}
+        data-testid="product-form-image-url"
         {...register("imageUrl")}
       />
 
@@ -160,7 +165,12 @@ export function ProductForm({
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
-        <Button type="submit" variant="primary" loading={isSubmitting}>
+        <Button
+          type="submit"
+          variant="primary"
+          loading={isSubmitting}
+          data-testid="product-form-submit"
+        >
           {product ? "Save Changes" : "Add Product"}
         </Button>
       </div>

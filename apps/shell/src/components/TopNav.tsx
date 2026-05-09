@@ -7,9 +7,9 @@ import { cn } from "@modulus/ui";
 // ─── Role labels ──────────────────────────────────────────────────────────────
 
 const ROLE_LABELS: Record<UserType["role"], string> = {
-  ops_manager:       "Operations Manager",
-  inventory_staff:   "Inventory Staff",
-  fulfilment_staff:  "Fulfilment Staff",
+  ops_manager:      "Operations Manager",
+  inventory_staff:  "Inventory Staff",
+  fulfilment_staff: "Fulfilment Staff",
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -32,7 +32,7 @@ export function TopNav({ user, onLogout }: TopNavProps) {
       </div>
 
       {/* Right — user menu */}
-      <div className="relative">
+      <div className="relative" data-testid="user-display">
         <button
           onClick={() => { setMenuOpen((o) => !o); }}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm hover:bg-gray-100"

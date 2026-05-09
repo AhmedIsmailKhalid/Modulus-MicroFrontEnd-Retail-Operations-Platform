@@ -37,7 +37,7 @@ export function OrderFilters() {
         value={statusFilter}
         onChange={(e) => { setStatusFilter(e.target.value); }}
         className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        data-testid="status-filter"
+        data-testid="order-status-filter"
       >
         <option value="">All Statuses</option>
         {STATUS_OPTIONS.map((opt) => (

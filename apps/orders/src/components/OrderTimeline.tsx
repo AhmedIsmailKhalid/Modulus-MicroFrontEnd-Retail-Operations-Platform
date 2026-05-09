@@ -22,11 +22,11 @@ function formatDateTime(iso: string): string {
 }
 
 const STATUS_ICONS: Record<OrderStatus, React.ReactNode> = {
-  pending:    <Clock      className="h-4 w-4 text-yellow-500" />,
-  processing: <Clock      className="h-4 w-4 text-blue-500" />,
+  pending:    <Clock        className="h-4 w-4 text-yellow-500" />,
+  processing: <Clock        className="h-4 w-4 text-blue-500" />,
   shipped:    <CheckCircle2 className="h-4 w-4 text-purple-500" />,
   delivered:  <CheckCircle2 className="h-4 w-4 text-green-500" />,
-  cancelled:  <XCircle    className="h-4 w-4 text-red-500" />,
+  cancelled:  <XCircle      className="h-4 w-4 text-red-500" />,
 };
 
 const STATUS_LABELS: Record<OrderStatus, string> = {
@@ -47,7 +47,11 @@ export function OrderTimeline({ timeline }: OrderTimelineProps) {
   return (
     <div className="flex flex-col gap-0" data-testid="order-timeline">
       {sorted.map((event, idx) => (
-        <div key={idx} className="flex gap-3">
+        <div
+          key={idx}
+          className="flex gap-3"
+          data-testid={`timeline-entry-${event.status}`}
+        >
           {/* Icon + line */}
           <div className="flex flex-col items-center">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-200">
