@@ -47,6 +47,7 @@ export function OrderDetail({ onUpdateStatus }: OrderDetailProps) {
             onClick={closeDetail}
             leftIcon={<ArrowLeft className="h-4 w-4" />}
             className="h-8"
+            data-testid="back-to-orders"
           >
             Back to Orders
           </Button>

@@ -1,4 +1,6 @@
-import { Pagination, EmptyState, TableSkeleton } from "@modulus/ui";
+import { Table, Pagination, EmptyState, TableSkeleton } from "@modulus/ui";
+import type { ColumnDef } from "@modulus/ui";
+import type { Order } from "@modulus/types";
 
 import { useOrdersStore } from "../store/ordersStore";
 import { OrderStatusBadge } from "./OrderStatusBadge";
@@ -21,81 +23,82 @@ function formatDate(iso: string): string {
 
 export function OrderTable() {
   const {
-    orders, total, totalPages, page,
-    isLoading, setPage, openDetail,
+    orders, total, totalPages, page, isLoading,
+    setPage, openDetail,
   } = useOrdersStore();
 
+  const columns: ColumnDef<Order>[] = [
+    {
+      key:    "id",
+      header: "Order ID",
+      cell:   (row) => (
+        <button
+          className="font-mono text-sm font-medium text-blue-600 hover:underline text-left"
+          onClick={() => { openDetail(row); }}
+          data-testid={`order-row-${row.id}`}
+        >
+          {row.id}
+        </button>
+      ),
+    },
+    {
+      key:    "customer",
+      header: "Customer",
+      cell:   (row) => (
+        <div>
+          <p className="font-medium text-gray-900">{row.customerName}</p>
+          <p className="text-xs text-gray-500">{row.customerEmail}</p>
+        </div>
+      ),
+    },
+    {
+      key:    "items",
+      header: "Items",
+      align:  "center",
+      cell:   (row) => (
+        <span className="text-sm text-gray-700">{row.items.length}</span>
+      ),
+    },
+    {
+      key:    "total",
+      header: "Total",
+      align:  "right",
+      cell:   (row) => (
+        <span className="font-medium text-gray-900">{formatPrice(row.total)}</span>
+      ),
+    },
+    {
+      key:    "status",
+      header: "Status",
+      cell:   (row) => <OrderStatusBadge status={row.status} />,
+    },
+    {
+      key:    "createdAt",
+      header: "Date",
+      cell:   (row) => (
+        <span className="text-sm text-gray-500">{formatDate(row.createdAt)}</span>
+      ),
+    },
+  ];
+
   if (isLoading) {
-    return <TableSkeleton rows={8} cols={6} />;
+    return <TableSkeleton rows={10} cols={6} />;
   }
 
   return (
     <>
-      <div
-        className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white"
+      <Table<Order>
+        columns={columns}
+        data={orders}
+        keyExtractor={(row) => row.id}
+        emptyState={
+          <EmptyState
+            title="No orders found"
+            description="Try adjusting your search or filters."
+          />
+        }
         data-testid="order-table"
-      >
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-gray-200 bg-gray-50">
-                {["Order ID", "Customer", "Items", "Total", "Status", "Date"].map((h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {orders.length === 0 ? (
-                <tr>
-                  <td colSpan={6}>
-                    <EmptyState
-                      title="No orders found"
-                      description="Try adjusting your search or status filter."
-                    />
-                  </td>
-                </tr>
-              ) : (
-                orders.map((order, idx) => (
-                  <tr
-                    key={order.id}
-                    onClick={() => { openDetail(order); }}
-                    className={[
-                      "cursor-pointer border-b border-gray-100 transition-colors last:border-0 hover:bg-blue-50",
-                      idx % 2 === 1 ? "bg-gray-50/50" : "",
-                    ].join(" ")}
-                    data-testid={`order-row-${order.id}`}
-                  >
-                    <td className="px-4 py-3">
-                      <span className="font-mono text-xs font-medium text-blue-600">{order.id}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-gray-900">{order.customerName}</p>
-                      <p className="text-xs text-gray-500">{order.customerEmail}</p>
-                    </td>
-                    <td className="px-4 py-3 text-center text-sm text-gray-700">
-                      {order.items.length}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-gray-900">
-                      {formatPrice(order.total)}
-                    </td>
-                    <td className="px-4 py-3">
-                      <OrderStatusBadge status={order.status} />
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-500">
-                      {formatDate(order.createdAt)}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      />
 
       {totalPages > 1 && (
         <Pagination
@@ -109,4 +112,3 @@ export function OrderTable() {
     </>
   );
 }
-
