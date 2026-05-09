@@ -26,7 +26,8 @@
     "workerDirectory": [
       "apps\\shell\\public",
       "apps\\inventory\\public",
-      "apps\\orders\\public"
+      "apps\\orders\\public",
+      "apps\\analytics\\public"
     ]
   }
 }

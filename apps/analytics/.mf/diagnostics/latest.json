@@ -1,0 +1,26 @@
+{
+  "bundler": {
+    "name": "webpack"
+  },
+  "mfConfig": {
+    "name": "analytics",
+    "exposes": {
+      "./App": "./src/App"
+    }
+  },
+  "latestErrorEvent": {
+    "code": "BUILD-001",
+    "message": "Failed to find expose module. #BUILD-001\nargs: {\"exposeModules\":[{\"name\":\"./App\",\"module\":null,\"request\":\"./src/App\"}],\"FEDERATION_WEBPACK_PATH\":\"\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/build#build-001",
+    "args": {
+      "exposeModules": [
+        {
+          "name": "./App",
+          "module": null,
+          "request": "./src/App"
+        }
+      ],
+      "FEDERATION_WEBPACK_PATH": ""
+    },
+    "timestamp": 1778273250027
+  }
+}
