@@ -1,6 +1,7 @@
 name: Analytics CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
