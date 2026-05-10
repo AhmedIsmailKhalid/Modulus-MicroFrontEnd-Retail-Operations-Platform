@@ -4,6 +4,7 @@ import { Configuration as DevServerConfig } from "webpack-dev-server";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
 type Configuration = WebpackConfig & { devServer?: DevServerConfig };
 
@@ -69,8 +70,11 @@ const config: Configuration = {
       },
       dts: false,
     }),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
+    new HtmlWebpackPlugin({ template: "./public/index.html" }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "public/mockServiceWorker.js", to: "mockServiceWorker.js" },
+      ],
     }),
     ...(isDev ? [] : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
   ],

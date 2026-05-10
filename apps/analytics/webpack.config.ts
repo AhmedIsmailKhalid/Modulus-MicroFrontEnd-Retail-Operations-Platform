@@ -5,6 +5,7 @@ import { Configuration as DevServerConfig } from "webpack-dev-server";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -64,6 +65,11 @@ const config: Configuration = {
       },
     }),
     new HtmlWebpackPlugin({ template: "./public/index.html" }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "public/mockServiceWorker.js", to: "mockServiceWorker.js" },
+      ],
+    }),
     ...(isDev ? [] : [new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" })]),
   ],
   devServer: {

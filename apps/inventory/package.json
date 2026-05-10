@@ -12,37 +12,38 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@modulus/auth": "*",
     "@modulus/types": "*",
     "@modulus/ui": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
-    "zustand": "^5.0.2",
     "zod": "^3.24.1",
-    "@hookform/resolvers": "^3.9.1"
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@module-federation/enhanced": "^2.4.0",
     "@modulus/config": "*",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/webpack": "^5.28.5",
+    "autoprefixer": "^10.4.20",
+    "copy-webpack-plugin": "^14.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.3",
     "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.4.49",
     "postcss-loader": "^8.1.1",
+    "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.16",
-    "autoprefixer": "^10.4.20",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8",
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.2.0",
-    "@module-federation/enhanced": "^2.4.0",
-    "style-loader": "^4.0.0",
-    "cross-env": "^7.0.3"
+    "webpack-dev-server": "^5.2.0"
   }
 }
