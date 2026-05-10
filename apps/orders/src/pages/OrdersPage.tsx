@@ -1,3 +1,5 @@
+import { AlertCircle } from "lucide-react";
+
 import { ToastContainer, useToast } from "@modulus/ui";
 import type { Order } from "@modulus/types";
 
@@ -9,7 +11,7 @@ import { OrderDetail } from "../components/OrderDetail";
 import { UpdateStatusModal } from "../components/UpdateStatusModal";
 
 export function OrdersPage() {
-  const { isDetailOpen, openStatusModal } = useOrdersStore();
+  const { isDetailOpen, openStatusModal, error } = useOrdersStore();
   const { refetch } = useOrders();
   const toast = useToast();
 
@@ -38,6 +40,20 @@ export function OrdersPage() {
               </p>
             </div>
           </div>
+
+          {/* Error banner */}
+          {error && (
+            <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <span>{error}</span>
+              <button
+                onClick={() => { void refetch(); }}
+                className="ml-auto font-medium underline underline-offset-2 hover:no-underline"
+              >
+                Retry
+              </button>
+            </div>
+          )}
 
           <OrderFilters />
           <OrderTable />

@@ -1,4 +1,4 @@
-import { Plus, Tag } from "lucide-react";
+import { Plus, Tag, AlertCircle } from "lucide-react";
 
 import { Button, ToastContainer, useToast } from "@modulus/ui";
 import type { Product } from "@modulus/types";
@@ -12,7 +12,7 @@ import { EditProductSlideOver } from "../components/EditProductSlideOver";
 import { CategoryModal } from "../components/CategoryModal";
 
 export function InventoryPage() {
-  const { openAdd, openCategory } = useInventoryStore();
+  const { openAdd, openCategory, error } = useInventoryStore();
   const { refetch } = useProducts();
   const toast = useToast();
 
@@ -56,6 +56,20 @@ export function InventoryPage() {
           </Button>
         </div>
       </div>
+
+      {/* Error banner */}
+      {error && (
+        <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          <span>{error}</span>
+          <button
+            onClick={() => { void refetch(); }}
+            className="ml-auto font-medium underline underline-offset-2 hover:no-underline"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* Filters */}
       <ProductFilters />

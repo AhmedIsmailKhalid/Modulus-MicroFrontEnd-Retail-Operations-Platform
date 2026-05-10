@@ -7,24 +7,24 @@ import { OrderStatusBadge } from "./OrderStatusBadge";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatPrice(cents: number): string {
-  return `$${(cents / 100).toFixed(2)}`;
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("en-US", {
     month: "short",
     day:   "numeric",
     year:  "numeric",
   });
 }
 
+function formatPrice(cents: number): string {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function OrderTable() {
   const {
-    orders, total, totalPages, page, isLoading,
-    setPage, openDetail,
+    orders, total, totalPages, page,
+    isLoading, setPage, openDetail,
   } = useOrdersStore();
 
   const columns: ColumnDef<Order>[] = [
@@ -33,16 +33,16 @@ export function OrderTable() {
       header: "Order ID",
       cell:   (row) => (
         <button
-          className="font-mono text-sm font-medium text-blue-600 hover:underline text-left"
-          onClick={() => { openDetail(row); }}
           data-testid={`order-row-${row.id}`}
+          onClick={() => { openDetail(row); }}
+          className="font-mono text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline"
         >
-          {row.id}
+          #{row.id.slice(0, 8).toUpperCase()}
         </button>
       ),
     },
     {
-      key:    "customer",
+      key:    "customerName",
       header: "Customer",
       cell:   (row) => (
         <div>
@@ -52,12 +52,9 @@ export function OrderTable() {
       ),
     },
     {
-      key:    "items",
-      header: "Items",
-      align:  "center",
-      cell:   (row) => (
-        <span className="text-sm text-gray-700">{row.items.length}</span>
-      ),
+      key:    "status",
+      header: "Status",
+      cell:   (row) => <OrderStatusBadge status={row.status} />,
     },
     {
       key:    "total",
@@ -68,21 +65,24 @@ export function OrderTable() {
       ),
     },
     {
-      key:    "status",
-      header: "Status",
-      cell:   (row) => <OrderStatusBadge status={row.status} />,
+      key:    "items",
+      header: "Items",
+      align:  "center",
+      cell:   (row) => (
+        <span className="text-sm text-gray-600">{row.items.length}</span>
+      ),
     },
     {
       key:    "createdAt",
       header: "Date",
       cell:   (row) => (
-        <span className="text-sm text-gray-500">{formatDate(row.createdAt)}</span>
+        <span className="text-sm text-gray-600">{formatDate(row.createdAt)}</span>
       ),
     },
   ];
 
   if (isLoading) {
-    return <TableSkeleton rows={10} cols={6} />;
+    return <TableSkeleton rows={8} cols={6} />;
   }
 
   return (
@@ -94,7 +94,7 @@ export function OrderTable() {
         emptyState={
           <EmptyState
             title="No orders found"
-            description="Try adjusting your search or filters."
+            description="Try adjusting your search or status filter."
           />
         }
         data-testid="order-table"
