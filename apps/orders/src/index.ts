@@ -23,3 +23,4 @@ async function mount(): Promise<void> {
 }
 
 void mount();
+
